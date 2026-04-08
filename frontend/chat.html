@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MedBot</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+
+<div class="layout">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="sidebar-top">
+        <button class="icon-round" onclick="toggleSidebar()" title="Close sidebar">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="18" rx="1"/>
+            <rect x="14" y="3" width="7" height="18" rx="1"/>
+          </svg>
+        </button>
+        <button class="icon-round" onclick="newChat()" title="New chat">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="history-list" id="history-list"></div>
+
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar" id="topbar">
+      <div class="topbar-left">
+        <button class="icon-round" id="open-sidebar-btn" onclick="toggleSidebar()" title="Open sidebar" style="display:none">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <rect x="3" y="3" width="7" height="18" rx="1"/>
+            <rect x="14" y="3" width="7" height="18" rx="1"/>
+          </svg>
+        </button>
+        <button class="icon-round" id="topbar-new-btn" onclick="newChat()" title="New chat" style="display:none">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+        </button>
+        <span class="topbar-model">
+          <span class="model-dot"></span>
+          AdaptRAg AI
+        </span>
+      </div>
+
+      <div class="rx-status" id="rx-status-btn" onclick="openUploadModal()">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+        <span id="rx-label">Upload prescription</span>
+      </div>
+    </div>
+
+    <div class="messages" id="messages">
+      <div class="welcome" id="welcome-screen">
+        <h1>How can I help you?</h1>
+        <div class="suggestion-grid">
+          <button class="suggestion" onclick="sendSuggestion('What are the common symptoms of diabetes?')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            Common symptoms of diabetes
+          </button>
+          <button class="suggestion" onclick="sendSuggestion('Explain my prescription medicines')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Explain my prescription medicines
+          </button>
+          <button class="suggestion" onclick="sendSuggestion('I have been feeling very stressed and anxious lately')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            Dealing with stress and anxiety
+          </button>
+          <button class="suggestion" onclick="sendSuggestion('What foods should I avoid with high blood pressure?')">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+            Diet tips for high blood pressure
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="input-area">
+      <div class="input-box">
+        <div class="attachment-preview" id="attachment-preview">
+          <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+          </svg>
+          <span class="rx-name" id="attachment-name"></span>
+          <span class="remove-rx" onclick="removeAttachment()" title="Remove">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </span>
+        </div>
+        <div class="input-row">
+          <label class="icon-btn attach-btn" title="Attach prescription" for="rx-file-input">
+            <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+            </svg>
+          </label>
+          <input type="file" id="rx-file-input" accept=".pdf,.png,.jpg,.jpeg" onchange="handleFileSelect(event)"/>
+          <textarea
+            id="msg-input"
+            rows="1"
+            placeholder="Ask MedBot anything…"
+            oninput="autoResize(this); toggleSend();"
+            onkeydown="handleKey(event)"
+          ></textarea>
+          <button class="send-btn" id="send-btn" onclick="sendMessage()" title="Send">
+            <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+              <line x1="12" y1="19" x2="12" y2="5"/>
+              <polyline points="5 12 12 5 19 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="input-hint">MedBot can make mistakes. Always consult a doctor for medical advice.</div>
+    </div>
+
+  </main>
+</div>
+
+<div class="modal-overlay" id="upload-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>Upload Prescription</h2>
+      <button class="icon-round" onclick="closeUploadModal()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+    <p>Upload a PDF or image of your prescription. MedBot will read it and answer questions about your medicines.</p>
+    <div class="drop-zone" id="drop-zone"
+      onclick="document.getElementById('modal-file-input').click()"
+      ondragover="dragOver(event)"
+      ondragleave="dragLeave(event)"
+      ondrop="dropFile(event)">
+      <svg fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      <div id="drop-label">Click to browse or drag &amp; drop</div>
+      <div class="drop-hint">PDF · PNG · JPG supported</div>
+    </div>
+    <input type="file" id="modal-file-input" accept=".pdf,.png,.jpg,.jpeg" onchange="modalFileSelected(event)"/>
+    <div class="upload-progress" id="upload-progress">
+      <div class="spinner"></div>
+      <span>Extracting text from prescription…</span>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeUploadModal()">Cancel</button>
+      <button class="btn btn-primary" id="upload-confirm-btn" onclick="confirmUpload()" disabled>Upload</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>
