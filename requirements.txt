@@ -11,3 +11,12 @@ langchain-groq
 
 chromadb
 sentence-transformers
+
+qdrant-client
+langchain-qdrant
+docling
+flask-cors
+langchain-huggingface
+pymupdf
+pytesseract
+pillow
