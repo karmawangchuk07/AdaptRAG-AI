@@ -18,7 +18,7 @@ chroma_db_docling/
 # VS Code
 .vscode/
 
-#data
+# data
 data/
 
 *.ipynb
@@ -28,3 +28,8 @@ venv/
 venvdir/
 env/
 .env/
+
+# StatPearls corpus artifacts (regeneratable, too large for git)
+statpearls_raw/
+data_cardio.zip
+*.zip
