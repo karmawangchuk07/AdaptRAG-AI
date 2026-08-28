@@ -1,6 +1,9 @@
 from rag.retriver import get_retriever
 from services.intent import detect_intent
 from services.prescription import get_prescription_retriever
+from sentence_transformers import CrossEncoder
+from services.intent import classify_and_rewrite
+
 
 
 PERSONAS = {
@@ -24,18 +27,39 @@ PERSONAS = {
     ),
 }
 
+# Loaded once at import time so it's not reloaded on every call.
+# Small (~80MB), runs fine on CPU.
+_reranker = None
+
+
+def _get_reranker():
+    global _reranker
+    if _reranker is None:
+        print("[INFO] Loading cross-encoder reranker...")
+        _reranker = CrossEncoder("cross-encoder/ms-marco-MiniLM-L-6-v2")
+    return _reranker
+
 
 def rerank_docs(query, docs, top_k=3):
-    query_words = set(query.lower().split())
-    scored = []
+    """Cross-encoder reranking: jointly scores (query, doc) pairs for relevance,
+    rather than counting overlapping words. Falls back to original doc order
+    if the model fails to load or score for any reason."""
+    if not docs:
+        return []
 
-    for doc in docs:
-        content_words = set(doc.page_content.lower().split())
-        score = len(query_words.intersection(content_words))
-        scored.append((score, doc))
+    try:
+        model = _get_reranker()
+        pairs = [[query, doc.page_content] for doc in docs]
+        scores = model.predict(pairs)
 
-    scored.sort(reverse=True, key=lambda x: x[0])
-    return [doc for _, doc in scored[:top_k]]
+        scored = list(zip(scores, docs))
+        scored.sort(reverse=True, key=lambda x: x[0])
+
+        return [doc for _, doc in scored[:top_k]]
+
+    except Exception as e:
+        print(f"[WARN] Reranker failed, falling back to original order: {e}")
+        return docs[:top_k]
 
 
 def improve_query(query, llm):
@@ -58,11 +82,8 @@ def generate_answer(
 
     query = message.strip()
 
-    improved_query = improve_query(query, llm)
-
-    intent = detect_intent(query, llm)
+    intent, improved_query = classify_and_rewrite(query, llm)
     print(f"[Intent] {intent}")
-
     medical_context = ""
 
     if intent == "medical":
@@ -120,7 +141,7 @@ def generate_answer(
     if intent == "prescription" and not rx_context:
         return (
             "I couldn't find any prescription data yet. "
-            "Please upload your prescription and I’ll help explain it."
+            "Please upload your prescription and I'll help explain it."
         )
 
     sections = [
