@@ -3,7 +3,7 @@ from services.intent import detect_intent
 from services.prescription import get_prescription_retriever
 from sentence_transformers import CrossEncoder
 from services.intent import classify_and_rewrite
-
+from rag.hybrid_retriever import get_hybrid_retriever
 
 
 PERSONAS = {
@@ -87,7 +87,7 @@ def generate_answer(
     medical_context = ""
 
     if intent == "medical":
-        retriever = retriever or get_retriever(k=5)
+        retriever = retriever or get_hybrid_retriever(k=5)
         docs = retriever.invoke(improved_query)
 
         print("\n--- MEDICAL RETRIEVED DOCS ---")

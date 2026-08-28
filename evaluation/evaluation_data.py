@@ -74,4 +74,14 @@ evaluation_data = [
         "keywords": ["angina", "stable", "unstable", "chest pain"],
         "relevant_sources": ["Stable_Angina_100323.pdf", "Unstable_Angina_17559.pdf"]
     },
+    {
+    "question": "What is the recommended dose of aspirin 81mg for secondary prevention?",
+    "keywords": ["81mg", "aspirin", "secondary prevention"],
+    "relevant_sources": ["Coronary_Artery_Disease_Prevention_27718.pdf"]
+    },
+    {
+        "question": "What INR range is targeted for warfarin therapy in AFib?",
+        "keywords": ["INR", "warfarin", "atrial fibrillation"],
+        "relevant_sources": ["Atrial_Fibrillation_17962.pdf"]
+    },
 ]

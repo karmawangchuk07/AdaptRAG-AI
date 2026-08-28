@@ -19,4 +19,5 @@ flask-cors
 langchain-huggingface
 pymupdf
 pytesseract
-pillow
+pillowsentence-transformers
+rank_bm25

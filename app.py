@@ -5,10 +5,11 @@ from datetime import datetime, timezone
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
+load_dotenv()
 from pymongo import MongoClient
 from langchain_groq import ChatGroq
 
-from rag.retriver import get_retriever
+from rag.hybrid_retriever import get_hybrid_retriever
 from services.memory_manager import get_memory, update_memory, format_memory
 from services.prescription import (
     extract_text_from_file,
@@ -28,7 +29,6 @@ app = Flask(
 
 CORS(app)
 
-load_dotenv()
 
 mongo_uri = os.getenv("MONGO_URI")
 mongo_client = MongoClient(mongo_uri)
@@ -46,13 +46,11 @@ print("[DEBUG] Using collection:", msg_col.name)
 
 
 llm = ChatGroq(
-    model_name="llama-3.1-8b-instant",
+    model_name="openai/gpt-oss-20b",
     groq_api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.3
 )
 
-retriever = get_retriever(k=5)
-print("[DEBUG] Retriever ready")
 
 
 
@@ -169,7 +167,7 @@ def chat():
                 user_id,
                 llm,
                 prescription_col,
-                retriever=retriever
+                retriever = get_hybrid_retriever(k=5)
             )
         except Exception as e:
             print("[GEN ERROR]", e)
