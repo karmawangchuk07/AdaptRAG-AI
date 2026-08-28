@@ -1,62 +1,77 @@
 evaluation_data = [
     {
-        "question": "What is an abdominal ultrasound?",
-        "keywords": ["sound waves", "imaging", "internal organs"]
+        "question": "What causes atrial fibrillation?",
+        "keywords": ["irregular heartbeat", "atrial", "arrhythmia"],
+        "relevant_sources": ["Atrial_Fibrillation_17962.pdf"]
     },
     {
-        "question": "What is the purpose of ultrasound in medicine?",
-        "keywords": ["diagnosis", "imaging", "detect"]
+        "question": "What is heart failure with preserved ejection fraction?",
+        "keywords": ["ejection fraction", "heart failure", "preserved"],
+        "relevant_sources": ["Heart_Failure_With_Preserved_Ejection_Fraction_HFpEF_164817.pdf"]
     },
     {
-        "question": "What conditions can abdominal ultrasound detect?",
-        "keywords": ["abdominal pain", "tumors", "kidney", "gallstones"]
+        "question": "What are the symptoms of a myocardial infarction?",
+        "keywords": ["chest pain", "heart attack", "myocardial"],
+        "relevant_sources": ["Myocardial_Infarction_25460.pdf", "Acute_Myocardial_Infarction_17160.pdf"]
     },
     {
-        "question": "What is the frequency range used in medical ultrasound?",
-        "keywords": ["1-10", "mhz", "frequency"]
+        "question": "How do statins lower cholesterol?",
+        "keywords": ["cholesterol", "statin", "LDL"],
+        "relevant_sources": ["Statin_Medications_29463.pdf"]
     },
     {
-        "question": "What are the advantages of ultrasound over X-rays?",
-        "keywords": ["no radiation", "safe", "soft tissue"]
+        "question": "What is the treatment for endocarditis?",
+        "keywords": ["endocarditis", "antibiotic", "infection"],
+        "relevant_sources": ["Endocarditis_21086.pdf", "Endocarditis_Antibiotic_Regimens_21087.pdf"]
     },
     {
-        "question": "Why is ultrasound useful for diagnosing abdominal pain?",
-        "keywords": ["organs", "diagnose", "internal"]
+        "question": "What causes pericarditis?",
+        "keywords": ["pericarditis", "inflammation", "pericardium"],
+        "relevant_sources": ["Pericarditis_26955.pdf"]
     },
     {
-        "question": "How does ultrasound differentiate between tissues?",
-        "keywords": ["echo", "sound waves", "reflection"]
+        "question": "How is hypertrophic cardiomyopathy diagnosed?",
+        "keywords": ["hypertrophic", "cardiomyopathy", "diagnosis"],
+        "relevant_sources": ["Hypertrophic_Cardiomyopathy_18919.pdf"]
     },
     {
-        "question": "Why is fasting required before an abdominal ultrasound?",
-        "keywords": ["empty stomach", "better imaging", "gallbladder"]
+        "question": "What is a pacemaker used for?",
+        "keywords": ["pacemaker", "heart rhythm", "implant"],
+        "relevant_sources": ["Pacemaker_Insertion_26505.pdf", "Pacemaker_Indications_158.pdf"]
     },
     {
-        "question": "What role does ultrasound play in detecting internal bleeding?",
-        "keywords": ["internal bleeding", "trauma", "detect"]
+        "question": "What are the risk factors for coronary artery disease?",
+        "keywords": ["coronary artery", "risk factors", "cholesterol"],
+        "relevant_sources": ["Risk_Factors_for_Coronary_Artery_Disease_28614.pdf", "Coronary_Artery_Disease_20009.pdf"]
     },
     {
-        "question": "How does Doppler ultrasound work?",
-        "keywords": ["doppler", "frequency change", "blood flow"]
+        "question": "What is cardiac tamponade?",
+        "keywords": ["tamponade", "pericardial", "compression"],
+        "relevant_sources": ["Cardiac_Tamponade_18905.pdf"]
     },
     {
-        "question": "What are the risks associated with abdominal ultrasound?",
-        "keywords": ["no risk", "safe", "no side effects"]
+        "question": "How do beta blockers work on the heart?",
+        "keywords": ["beta blocker", "heart rate", "blood pressure"],
+        "relevant_sources": ["Beta_Blockers_18241.pdf"]
     },
     {
-        "question": "How does ultrasound compare with CT scans?",
-        "keywords": ["faster", "cheaper", "no radiation"]
+        "question": "What is takotsubo cardiomyopathy?",
+        "keywords": ["takotsubo", "cardiomyopathy", "stress"],
+        "relevant_sources": ["Takotsubo_Cardiomyopathy_18924.pdf"]
     },
     {
-        "question": "What are the different modes of ultrasound?",
-        "keywords": ["a-mode", "b-mode", "doppler", "m-mode"]
+        "question": "What is the role of ACE inhibitors in hypertension?",
+        "keywords": ["ACE inhibitor", "hypertension", "blood pressure"],
+        "relevant_sources": ["ACE_Inhibitors_17070.pdf"]
     },
     {
-        "question": "How is ultrasound used in treatment?",
-        "keywords": ["therapy", "tumor", "healing"]
+        "question": "What causes an abdominal aortic aneurysm to rupture?",
+        "keywords": ["aortic aneurysm", "rupture", "abdominal"],
+        "relevant_sources": ["Abdominal_Aortic_Aneurysm_Rupture_37807.pdf", "Abdominal_Aortic_Aneurysm_17011.pdf"]
     },
     {
-        "question": "What factors can affect ultrasound image quality?",
-        "keywords": ["equipment", "skill", "body type", "gas"]
-    }
+        "question": "What is the difference between stable and unstable angina?",
+        "keywords": ["angina", "stable", "unstable", "chest pain"],
+        "relevant_sources": ["Stable_Angina_100323.pdf", "Unstable_Angina_17559.pdf"]
+    },
 ]

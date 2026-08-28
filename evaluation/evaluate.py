@@ -7,14 +7,14 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from evaluation_data import evaluation_data
 from services.answer import generate_answer
-from rag.retriver import get_retriever, get_docling_retriever
-
+from rag.retriver import get_retriever
+from rag.ingest import load_baseline_db
 from langchain_groq import ChatGroq
 
 import re
 
 llm = ChatGroq(
-    model_name="llama-3.1-8b-instant",
+    model_name="openai/gpt-oss-20b",
     groq_api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.3
 )
@@ -114,17 +114,19 @@ def evaluate_system(retriever, label):
 
 
 def compare():
-    baseline_retriever = get_retriever(k=5)
-    docling_retriever = get_docling_retriever(k=5)
+    baseline_vectordb = load_baseline_db()
+    baseline_retriever = baseline_vectordb.as_retriever(
+        search_type="similarity",
+        search_kwargs={"k": 5}
+    )
+    docling_retriever = get_retriever(k=5)
 
     baseline_score = evaluate_system(baseline_retriever, "Baseline")
     docling_score = evaluate_system(docling_retriever, "Docling")
 
-    print("\n📊 FINAL COMPARISON")
+    print("\n FINAL COMPARISON")
     print(f"Baseline: {baseline_score:.2f}%")
     print(f"Docling: {docling_score:.2f}%")
     print(f"Improvement: {docling_score - baseline_score:.2f}%")
-
-
 if __name__ == "__main__":
     compare()
